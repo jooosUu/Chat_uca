@@ -5,35 +5,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!chatInput || !sendBtn || !chatMessages) return;
 
-    // Función para agregar un mensaje al chat
+    // Función para agregar un mensaje al chat (PDF Style)
     const addMessage = (text, type = 'sent') => {
         if (!text.trim()) return;
 
-        const msgWrapper = document.createElement('div');
-        msgWrapper.classList.add('msg-wrapper', type);
+        const msgRow = document.createElement('div');
+        msgRow.classList.add('msg-row', type);
 
         const now = new Date();
         const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const avatarName = type === 'sent' ? 'Juan' : 'UCA';
-        const avatarBg = type === 'sent' ? 'eee' : '0D1B3E';
-        const avatarColor = type === 'sent' ? '333' : 'fff';
 
-        msgWrapper.innerHTML = `
-            <img src="https://ui-avatars.com/api/?name=${avatarName}&background=${avatarBg}&color=${avatarColor}" class="msg-avatar" alt="Avatar">
-            <div>
-                <div class="msg-bubble">
+        if (type === 'received') {
+            msgRow.innerHTML = `
+                <div class="bubble">
                     ${text}
                 </div>
-                <span class="msg-time">${timeStr}</span>
-            </div>
-        `;
+                <div class="msg-meta">
+                    <div class="avatar-small">UCA</div>
+                    <span class="time">${timeStr}</span>
+                </div>
+            `;
+        } else {
+            msgRow.innerHTML = `
+                <div class="bubble">
+                    ${text}
+                </div>
+                <div class="msg-meta">
+                    <div class="avatar-small circular"></div>
+                    <span class="time">${timeStr}</span>
+                </div>
+            `;
+        }
 
-        chatMessages.appendChild(msgWrapper);
+        chatMessages.appendChild(msgRow);
         
         // Scroll al fondo
         chatMessages.scrollTop = chatMessages.scrollHeight;
         
-        // Limpiar input si es enviado por el usuario
+        // Limpiar input
         if (type === 'sent') {
             chatInput.value = '';
         }
