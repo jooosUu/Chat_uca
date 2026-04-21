@@ -192,21 +192,23 @@ body {
 }
 
 .selection-header h2 {
-    font-size: 2.5rem;
+    font-size: 3rem;
+    font-weight: 800;
     color: var(--text-dark);
     margin-bottom: 12px;
+    letter-spacing: -1px;
 }
 
 .selection-cards {
     display: flex;
-    gap: 30px;
-    max-width: 900px;
+    gap: 40px;
+    max-width: 1000px;
 }
 
 .profile-card {
     background: var(--white);
-    padding: 40px;
-    border-radius: 12px;
+    padding: 60px 40px;
+    border-radius: 16px;
     box-shadow: var(--shadow);
     text-align: center;
     flex: 1;
@@ -214,52 +216,58 @@ body {
     flex-direction: column;
     align-items: center;
     transition: var(--transition);
+    border: 1px solid rgba(0,0,0,0.05);
 }
 
 .profile-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-12px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .profile-icon-bg {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     background-color: #F0F2F5;
-    border-radius: 12px;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 24px;
+    margin-bottom: 30px;
     color: var(--primary-blue);
 }
 
 .profile-card h3 {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: 800;
     color: var(--primary-blue);
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
 .profile-card p {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--text-light);
-    margin-bottom: 32px;
+    margin-bottom: 40px;
     line-height: 1.6;
+    max-width: 280px;
 }
 
 .btn-outline {
     width: 100%;
-    padding: 14px;
+    padding: 18px;
     background-color: var(--primary-blue);
     color: var(--white);
     border: none;
-    border-radius: 6px;
-    font-weight: 600;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 12px;
     transition: var(--transition);
 }
+
 
 /* --- SIDEBAR LAYOUT --- */
 .layout-with-sidebar {
