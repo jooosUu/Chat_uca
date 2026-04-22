@@ -19,12 +19,25 @@ function goToPage(pageId) {
     }
 }
 
+var selectedRole = '';
+
 function enterAsStudent() {
-    goToPage('page-student-home');
+    selectedRole = 'student';
+    goToPage('page-login');
 }
 
 function enterAsMonitor() {
-    goToPage('page-monitor-home');
+    selectedRole = 'monitor';
+    goToPage('page-login');
+}
+
+function finishLogin() {
+    if (selectedRole === 'student') {
+        goToPage('page-student-home');
+    } else {
+        goToPage('page-monitor-home');
+    }
+    showToast('Bienvenido al Academic Sanctuary', true);
 }
 
 function openStudentChat(chatName) {
