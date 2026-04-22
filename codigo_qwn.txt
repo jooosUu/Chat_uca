@@ -1,0 +1,2923 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIENESTAR UCA - Academic Sanctuary</title>
+    <link href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.18/index.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f6f8;
+            color: #1a1a2e;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page {
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        /* ===== PROFILE SELECTION ===== */
+        #page-profile {
+            justify-content: center;
+            align-items: center;
+            background: #f5f6f8;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .profile-bg-element {
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 350px;
+            height: 350px;
+            background: linear-gradient(135deg, #e8eaf0, #d0d3dc);
+            border-radius: 50%;
+            opacity: 0.4;
+            z-index: 0;
+        }
+
+        .profile-header {
+            text-align: center;
+            z-index: 1;
+            margin-bottom: 40px;
+        }
+
+        .profile-header h4 {
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #0a1628;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .profile-header h4::after {
+            content: '';
+            display: block;
+            width: 28px;
+            height: 2px;
+            background: #0a1628;
+            margin: 8px auto;
+        }
+
+        .profile-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #0a1628;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .profile-header p {
+            font-size: 13px;
+            color: #6b7280;
+            font-weight: 400;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .profile-cards {
+            display: flex;
+            gap: 24px;
+            z-index: 1;
+        }
+
+        .profile-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 36px 32px;
+            width: 310px;
+            text-align: center;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e5e7eb;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .profile-card-icon {
+            width: 64px;
+            height: 64px;
+            background: #f3f4f6;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .profile-card-icon svg {
+            width: 32px;
+            height: 32px;
+            stroke: #0a1628;
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .profile-card h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #0a1628;
+            margin-bottom: 10px;
+        }
+
+        .profile-card p {
+            font-size: 12px;
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .profile-card button {
+            width: 100%;
+            padding: 11px 20px;
+            background: #0a1628;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-family: 'Inter', sans-serif;
+            transition: background 0.15s;
+        }
+
+        .profile-card button:hover {
+            background: #162040;
+        }
+
+        .profile-card button .arrow {
+            font-size: 13px;
+        }
+
+        .profile-footer {
+            position: absolute;
+            bottom: 20px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .profile-footer span {
+            font-size: 10px;
+            color: #9ca3af;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .app-layout {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 220px;
+            background: #ffffff;
+            border-right: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 0;
+            flex-shrink: 0;
+        }
+
+        .sidebar-logo {
+            padding: 0 24px;
+            margin-bottom: 28px;
+        }
+
+        .sidebar-logo h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #0a1628;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-logo p {
+            font-size: 8px;
+            color: #9ca3af;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 0 12px;
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.15s;
+            margin-bottom: 2px;
+            text-decoration: none;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .sidebar-nav-item:hover {
+            background: #f9fafb;
+            color: #1a1a2e;
+        }
+
+        .sidebar-nav-item.active {
+            background: #f3f4f6;
+            color: #0a1628;
+            font-weight: 600;
+        }
+
+        .sidebar-nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 18px;
+            background: #0a1628;
+            border-radius: 0 2px 2px 0;
+        }
+
+        .sidebar-nav-item svg {
+            width: 17px;
+            height: 17px;
+            flex-shrink: 0;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .sidebar-nav-item .nav-text {
+            white-space: nowrap;
+        }
+
+        .sidebar-bottom {
+            padding: 0 12px;
+            border-top: 1px solid #f3f4f6;
+            padding-top: 12px;
+            margin-top: 8px;
+        }
+
+        .sidebar-bottom .sidebar-nav-item {
+            font-size: 11px;
+        }
+
+        .sidebar-bottom .sidebar-nav-item.logout {
+            color: #dc2626;
+        }
+
+        .sidebar-bottom .sidebar-nav-item.logout:hover {
+            background: #fef2f2;
+        }
+
+        .sidebar-bottom .sidebar-nav-item.logout svg {
+            color: #dc2626;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ===== DASHBOARD ===== */
+        .dashboard-content {
+            padding: 40px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .dashboard-welcome {
+            margin-bottom: 28px;
+        }
+
+        .dashboard-welcome h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #0a1628;
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
+        }
+
+        .dashboard-welcome p {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .stat-card .stat-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+        }
+
+        .stat-card .stat-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke-width: 1.5;
+        }
+
+        .stat-card .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0a1628;
+            margin-bottom: 2px;
+        }
+
+        .stat-card .stat-label {
+            font-size: 11px;
+            color: #9ca3af;
+            font-weight: 500;
+        }
+
+        .dashboard-section-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0a1628;
+            margin-bottom: 14px;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .quick-action-card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .quick-action-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        }
+
+        .quick-action-card .qa-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+        }
+
+        .quick-action-card .qa-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke-width: 1.5;
+        }
+
+        .quick-action-card h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0a1628;
+            margin-bottom: 4px;
+        }
+
+        .quick-action-card p {
+            font-size: 11px;
+            color: #9ca3af;
+            line-height: 1.5;
+        }
+
+        .recent-activity {
+            background: #ffffff;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            padding: 20px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .activity-text {
+            font-size: 12px;
+            color: #374151;
+            flex: 1;
+        }
+
+        .activity-time {
+            font-size: 10px;
+            color: #9ca3af;
+            white-space: nowrap;
+        }
+
+        /* ===== CHATS LIST ===== */
+        .chats-list-header {
+            padding: 36px 40px 0;
+        }
+
+        .chats-list-header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #0a1628;
+            margin-bottom: 4px;
+        }
+
+        .chats-list-header p {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .chats-list-container {
+            padding: 20px 40px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .chat-list-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            background: #ffffff;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .chat-list-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+
+        .chat-list-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-list-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .chat-list-avatar .online-indicator {
+            position: absolute;
+            bottom: -1px;
+            right: -1px;
+            width: 11px;
+            height: 11px;
+            background: #22c55e;
+            border-radius: 50%;
+            border: 2px solid #ffffff;
+        }
+
+        .chat-list-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .chat-list-info h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0a1628;
+            margin-bottom: 3px;
+        }
+
+        .chat-list-info p {
+            font-size: 11px;
+            color: #9ca3af;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 380px;
+        }
+
+        .chat-list-meta {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .chat-list-meta .time-label {
+            font-size: 10px;
+            color: #9ca3af;
+            margin-bottom: 6px;
+        }
+
+        .chat-list-meta .unread-badge {
+            background: #0a1628;
+            color: #ffffff;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 8px;
+        }
+
+        /* ===== MONITORS GRID ===== */
+        .monitors-header-section {
+            padding: 36px 40px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .monitors-header-section h1 {
+            font-size: 30px;
+            font-weight: 800;
+            color: #0a1628;
+            line-height: 1.15;
+        }
+
+        .monitors-header-section .underline-bar {
+            width: 50px;
+            height: 3px;
+            background: #0a1628;
+            border-radius: 2px;
+            margin-top: 4px;
+        }
+
+        .monitors-online-count {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .online-icons-group {
+            display: flex;
+            gap: 3px;
+        }
+
+        .online-icon-box {
+            width: 26px;
+            height: 26px;
+            background: #0a1628;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .online-icon-box svg {
+            width: 14px;
+            height: 14px;
+            fill: white;
+        }
+
+        .online-count-text {
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        .online-count-text strong {
+            color: #0a1628;
+            font-weight: 700;
+        }
+
+        .monitors-grid-page {
+            padding: 28px 40px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .monitor-card-page {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 28px 20px;
+            border: 1px solid #e5e7eb;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .monitor-card-page:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+        }
+
+        .monitor-card-top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .monitor-card-avatar-box {
+            width: 52px;
+            height: 52px;
+            background: #f3f4f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .monitor-card-avatar-box svg {
+            width: 28px;
+            height: 28px;
+            stroke: #6b7280;
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .monitor-card-avatar-box .status-indicator {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            border: 2px solid #ffffff;
+        }
+
+        .monitor-card-avatar-box .status-indicator.online {
+            background: #22c55e;
+        }
+
+        .monitor-card-avatar-box .status-indicator.offline {
+            background: #d1d5db;
+        }
+
+        .monitor-card-status-badge {
+            font-size: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .monitor-card-status-badge.online-badge {
+            color: #22c55e;
+            background: #f0fdf4;
+        }
+
+        .monitor-card-status-badge.offline-badge {
+            color: #9ca3af;
+            background: #f9fafb;
+        }
+
+        .monitor-card-page h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #0a1628;
+            margin-bottom: 3px;
+        }
+
+        .monitor-card-page .faculty-name {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .monitor-card-tags-section {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .monitor-card-tag-item {
+            font-size: 9px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            background: #f3f4f6;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .monitor-card-tag-item.active-tag-item {
+            background: #0a1628;
+            color: #ffffff;
+        }
+
+        .monitor-card-btn-section {
+            width: 100%;
+            padding: 9px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.15s;
+        }
+
+        .monitor-card-btn-section.primary-btn {
+            background: #0a1628;
+            color: #ffffff;
+            border: none;
+        }
+
+        .monitor-card-btn-section.primary-btn:hover {
+            background: #162040;
+        }
+
+        .monitor-card-btn-section.secondary-btn {
+            background: #f3f4f6;
+            color: #9ca3af;
+            border: none;
+            cursor: not-allowed;
+        }
+
+        .monitor-card-btn-section svg {
+            width: 13px;
+            height: 13px;
+            stroke-width: 2;
+        }
+
+        /* ===== STUDENTS GRID - NUEVO DISEÑO ===== */
+        .students-header-section {
+            padding: 36px 40px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .students-header-section h1 {
+            font-size: 30px;
+            font-weight: 800;
+            color: #0a1628;
+            line-height: 1.15;
+        }
+
+        .students-header-section .underline-bar {
+            width: 50px;
+            height: 3px;
+            background: #0a1628;
+            border-radius: 2px;
+            margin-top: 4px;
+        }
+
+        .students-online-count {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .students-online-icons {
+            display: flex;
+            gap: 4px;
+        }
+
+        .students-online-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .students-online-icon.dark {
+            background: #0a1628;
+        }
+
+        .students-online-icon.light {
+            background: #6b7280;
+        }
+
+        .students-online-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: white;
+        }
+
+        .students-online-count-text {
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .students-online-count-text strong {
+            color: #0a1628;
+            font-weight: 700;
+        }
+
+        .students-grid-page {
+            padding: 28px 40px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .student-card-page {
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .student-card-page:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        }
+
+        .student-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .student-card-info {
+            flex: 1;
+        }
+
+        .student-card-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .student-card-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .student-card-avatar .status-dot {
+            position: absolute;
+            bottom: -1px;
+            right: -1px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #ffffff;
+        }
+
+        .student-card-avatar .status-dot.online {
+            background: #22c55e;
+        }
+
+        .student-card-avatar .status-dot.offline {
+            background: #d1d5db;
+        }
+
+        .student-card-avatar.initials {
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: #6b7280;
+        }
+
+        .student-card-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #0a1628;
+            margin-bottom: 2px;
+        }
+
+        .student-card-career {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 2px;
+        }
+
+        .student-card-semester {
+            font-size: 10px;
+            color: #9ca3af;
+            margin-bottom: 8px;
+        }
+
+        .student-card-mental-tag {
+            display: inline-block;
+            font-size: 10px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .student-card-mental-tag.anxious {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .student-card-mental-tag.stable {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .student-card-mental-tag.stressed {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .student-card-status-text {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .student-card-status-text.online {
+            color: #22c55e;
+            background: #f0fdf4;
+        }
+
+        .student-card-status-text.offline {
+            color: #9ca3af;
+            background: #f9fafb;
+        }
+
+        .student-card-chat-area {
+            flex: 1;
+            min-height: 200px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .student-card-chat-area.online-chat {
+            background: #0a1628;
+        }
+
+        .student-card-chat-area.offline-chat {
+            background: #f3f4f6;
+        }
+
+        .student-card-chat-area svg {
+            width: 70%;
+            max-width: 180px;
+            opacity: 0.9;
+        }
+
+        .student-card-chat-area .chat-text {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
+            text-align: right;
+        }
+
+        .student-card-chat-area.online-chat .chat-text {
+            color: #ffffff;
+        }
+
+        .student-card-chat-area.offline-chat .chat-text {
+            color: #9ca3af;
+        }
+
+        /* ===== HISTORY ===== */
+        .history-content {
+            padding: 36px 40px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .history-content h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #0a1628;
+            margin-bottom: 4px;
+        }
+
+        .history-content > p {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+
+        .history-search {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .history-search input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            background: #ffffff;
+        }
+
+        .history-search input:focus {
+            border-color: #0a1628;
+        }
+
+        .history-filter-btn {
+            padding: 10px 18px;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: 'Inter', sans-serif;
+            color: #6b7280;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .history-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            background: #ffffff;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .history-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+
+        .history-item-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .history-item-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke-width: 1.5;
+        }
+
+        .history-item-info {
+            flex: 1;
+        }
+
+        .history-item-info h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0a1628;
+            margin-bottom: 3px;
+        }
+
+        .history-item-info p {
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        .history-item-date {
+            font-size: 10px;
+            color: #9ca3af;
+            white-space: nowrap;
+        }
+
+        /* ===== SETTINGS ===== */
+        .settings-content {
+            padding: 36px 40px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .settings-content h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #0a1628;
+            margin-bottom: 4px;
+        }
+
+        .settings-content > p {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 28px;
+        }
+
+        .settings-section {
+            background: #ffffff;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .settings-section h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #0a1628;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .settings-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .settings-row:not(:last-child) {
+            border-bottom: 1px solid #f9fafb;
+        }
+
+        .settings-row-label {
+            font-size: 12px;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .settings-row-label small {
+            display: block;
+            font-size: 10px;
+            color: #9ca3af;
+            margin-top: 2px;
+            font-weight: 400;
+        }
+
+        .toggle-switch {
+            width: 40px;
+            height: 22px;
+            background: #d1d5db;
+            border-radius: 11px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .toggle-switch.active {
+            background: #0a1628;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background: #ffffff;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+
+        .toggle-switch.active::after {
+            transform: translateX(18px);
+        }
+
+        .settings-input-row {
+            padding: 10px 0;
+        }
+
+        .settings-input-row label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .settings-input-row input,
+        .settings-input-row select {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 12px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            background: #f9fafb;
+        }
+
+        .settings-input-row input:focus,
+        .settings-input-row select:focus {
+            border-color: #0a1628;
+        }
+
+        .settings-save-btn {
+            padding: 11px 28px;
+            background: #0a1628;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: background 0.15s;
+        }
+
+        .settings-save-btn:hover {
+            background: #162040;
+        }
+
+        /* ===== SUPPORT ===== */
+        .support-content {
+            padding: 36px 40px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .support-content h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #0a1628;
+            margin-bottom: 4px;
+        }
+
+        .support-content > p {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 28px;
+        }
+
+        .support-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .support-card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 24px;
+            border: 1px solid #e5e7eb;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .support-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        }
+
+        .support-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+        }
+
+        .support-card-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke-width: 1.5;
+        }
+
+        .support-card h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0a1628;
+            margin-bottom: 6px;
+        }
+
+        .support-card p {
+            font-size: 11px;
+            color: #9ca3af;
+            line-height: 1.5;
+        }
+
+        .support-form {
+            background: #ffffff;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            padding: 24px;
+        }
+
+        .support-form h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0a1628;
+            margin-bottom: 16px;
+        }
+
+        .support-form .form-row {
+            margin-bottom: 14px;
+        }
+
+        .support-form .form-row label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+
+        .support-form .form-row input,
+        .support-form .form-row textarea,
+        .support-form .form-row select {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 12px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            background: #f9fafb;
+            resize: vertical;
+        }
+
+        .support-form .form-row input:focus,
+        .support-form .form-row textarea:focus,
+        .support-form .form-row select:focus {
+            border-color: #0a1628;
+        }
+
+        .support-form .submit-btn {
+            padding: 11px 28px;
+            background: #0a1628;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: background 0.15s;
+        }
+
+        .support-form .submit-btn:hover {
+            background: #162040;
+        }
+
+        /* ===== CHAT PAGE ===== */
+        .chat-layout {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header-bar {
+            padding: 14px 20px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chat-header-avatar-box {
+            width: 34px;
+            height: 34px;
+            background: #0a1628;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .chat-header-avatar-box svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+
+        .chat-header-avatar-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .chat-header-avatar-box .online-dot {
+            position: absolute;
+            bottom: -1px;
+            right: -1px;
+            width: 9px;
+            height: 9px;
+            background: #22c55e;
+            border-radius: 50%;
+            border: 2px solid #ffffff;
+        }
+
+        .chat-header-details h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #0a1628;
+        }
+
+        .chat-header-details p {
+            font-size: 10px;
+            color: #22c55e;
+            font-weight: 500;
+        }
+
+        .chat-header-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 14px;
+        }
+
+        .chat-header-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            opacity: 0.4;
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-header-actions button:hover {
+            opacity: 0.8;
+        }
+
+        .chat-header-actions button svg {
+            width: 18px;
+            height: 18px;
+            stroke: #6b7280;
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .chat-main-area {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .chat-messages-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-messages-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .chat-date-divider {
+            text-align: center;
+            font-size: 9px;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .chat-msg {
+            display: flex;
+            gap: 10px;
+            max-width: 72%;
+        }
+
+        .chat-msg.incoming-msg {
+            align-self: flex-start;
+        }
+
+        .chat-msg.outgoing-msg {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .chat-msg-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+            overflow: hidden;
+        }
+
+        .chat-msg-avatar.bot-avatar {
+            background: #0a1628;
+        }
+
+        .chat-msg-avatar.bot-avatar svg {
+            width: 15px;
+            height: 15px;
+            fill: white;
+        }
+
+        .chat-msg-avatar.user-avatar {
+            background: #f3f4f6;
+        }
+
+        .chat-msg-avatar.user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .chat-msg-bubble {
+            padding: 14px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .chat-msg.incoming-msg .chat-msg-bubble {
+            background: #0a1628;
+            color: #ffffff;
+            border-top-left-radius: 3px;
+        }
+
+        .chat-msg.outgoing-msg .chat-msg-bubble {
+            background: #e5e7eb;
+            color: #1a1a2e;
+            border-top-right-radius: 3px;
+        }
+
+        .chat-msg-time {
+            font-size: 9px;
+            color: #9ca3af;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .chat-msg.incoming-msg .chat-msg-time {
+            margin-left: 40px;
+        }
+
+        .chat-msg.outgoing-msg .chat-msg-time {
+            text-align: right;
+            margin-right: 40px;
+        }
+
+        .chat-input-section {
+            padding: 14px 20px;
+            background: #ffffff;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .chat-input-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 7px 14px;
+        }
+
+        .chat-input-bar .file-upload-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            opacity: 0.35;
+            display: flex;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .chat-input-bar .file-upload-btn:hover {
+            opacity: 0.7;
+        }
+
+        .chat-input-bar .file-upload-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: #6b7280;
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .chat-input-bar .file-upload-btn input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .chat-input-bar .msg-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 12px;
+            color: #1a1a2e;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+        }
+
+        .chat-input-bar .msg-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .chat-input-bar .emoji-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            opacity: 0.35;
+            display: flex;
+            flex-shrink: 0;
+        }
+
+        .chat-input-bar .emoji-button:hover {
+            opacity: 0.7;
+        }
+
+        .chat-input-bar .emoji-button svg {
+            width: 18px;
+            height: 18px;
+            stroke: #6b7280;
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .chat-input-bar .send-button {
+            background: #0a1628;
+            border: none;
+            color: #ffffff;
+            padding: 7px 14px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-family: 'Inter', sans-serif;
+            transition: background 0.15s;
+            flex-shrink: 0;
+        }
+
+        .chat-input-bar .send-button:hover {
+            background: #162040;
+        }
+
+        .chat-input-bar .send-button svg {
+            width: 13px;
+            height: 13px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .chat-footer-bar {
+            text-align: center;
+            padding: 6px;
+            font-size: 9px;
+            color: #d1d5db;
+            background: #ffffff;
+        }
+
+        /* ===== CONTEXT SIDEBAR ===== */
+        .context-sidebar {
+            width: 260px;
+            background: #ffffff;
+            border-left: 1px solid #e5e7eb;
+            padding: 20px;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .context-sidebar-title {
+            font-size: 10px;
+            font-weight: 700;
+            color: #0a1628;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .context-item {
+            margin-bottom: 14px;
+        }
+
+        .context-item-label {
+            font-size: 11px;
+            color: #9ca3af;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .context-item-value {
+            font-size: 13px;
+            color: #0a1628;
+            font-weight: 600;
+        }
+
+        .context-item-value .mental-tag {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .context-section-divider {
+            height: 1px;
+            background: #f3f4f6;
+            margin: 16px 0;
+        }
+
+        .context-notes-title {
+            font-size: 10px;
+            font-weight: 700;
+            color: #0a1628;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .context-note-item {
+            background: #f9fafb;
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            font-size: 11px;
+            color: #6b7280;
+            line-height: 1.5;
+            border-left: 3px solid #0a1628;
+        }
+
+        /* ===== FILE PREVIEW ===== */
+        .file-preview-bar {
+            display: none;
+            padding: 7px 20px;
+            background: #f0fdf4;
+            border-top: 1px solid #bbf7d0;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-preview-bar.show {
+            display: flex;
+        }
+
+        .file-preview-icon {
+            width: 28px;
+            height: 28px;
+            background: #22c55e;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .file-preview-icon svg {
+            width: 14px;
+            height: 14px;
+            fill: white;
+        }
+
+        .file-preview-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .file-preview-info .file-name {
+            font-size: 11px;
+            font-weight: 600;
+            color: #0a1628;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-preview-info .file-size {
+            font-size: 9px;
+            color: #9ca3af;
+        }
+
+        .file-preview-remove {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 3px;
+            opacity: 0.5;
+            flex-shrink: 0;
+        }
+
+        .file-preview-remove:hover {
+            opacity: 1;
+        }
+
+        .file-preview-remove svg {
+            width: 14px;
+            height: 14px;
+            stroke: #dc2626;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* ===== TOAST ===== */
+        .toast-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #0a1628;
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            z-index: 2000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .toast-notification.show {
+            transform: translateX(0);
+        }
+
+        .toast-notification.success {
+            background: #22c55e;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e5e7eb;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d1d5db;
+        }
+
+        /* ===== MONITOR DASHBOARD GRID ===== */
+        .monitor-students-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .student-assignment-card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 16px;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .student-assignment-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+        }
+
+        .student-assignment-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .student-assignment-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .student-assignment-info {
+            flex: 1;
+        }
+
+        .student-assignment-info h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0a1628;
+            margin-bottom: 3px;
+        }
+
+        .student-assignment-info p {
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        .student-assignment-status {
+            font-size: 9px;
+            padding: 3px 9px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .student-assignment-status.active-status {
+            background: #f0fdf4;
+            color: #22c55e;
+        }
+
+        .student-assignment-status.pending-status {
+            background: #fef3c7;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="toastNotification" class="toast-notification"></div>
+
+    <!-- ===== PAGE 1: PROFILE SELECTION ===== -->
+    <div id="page-profile" class="page active">
+        <div class="profile-bg-element"></div>
+        <div class="profile-header">
+            <h4>UCA - Dirección de Bienestar Universitario</h4>
+            <h1>Selecciona tu perfil de acceso</h1>
+            <p>Bienvenido al Academic Sanctuary. Por favor, elige cómo deseas ingresar hoy.</p>
+        </div>
+        <div class="profile-cards">
+            <div class="profile-card" onclick="enterAsStudent()">
+                <div class="profile-card-icon">
+                    <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/></svg>
+                </div>
+                <h3>Soy Estudiante</h3>
+                <p>Ingresa para buscar soporte académico, orientación personal o participar en actividades de bienestar.</p>
+                <button>Entrar como Estudiante <span class="arrow">→</span></button>
+            </div>
+            <div class="profile-card" onclick="enterAsMonitor()">
+                <div class="profile-card-icon">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                </div>
+                <h3>Soy Monitor</h3>
+                <p>Ingresa para atender consultas activas, gestionar solicitudes y dar seguimiento al bienestar estudiantil.</p>
+                <button>Entrar como Monitor <span class="arrow">→</span></button>
+            </div>
+        </div>
+        <div class="profile-footer">
+            <span>Universidad Católica Americana © 2024</span>
+        </div>
+    </div>
+
+    <!-- ===== STUDENT PAGES ===== -->
+
+    <!-- Student Home -->
+    <div id="page-student-home" class="page">
+        <div class="app-layout">
+            <div class="sidebar">
+                <div class="sidebar-logo"><h3>BIENESTAR UCA</h3><p>ACADEMIC SANCTUARY</p></div>
+                <div class="sidebar-nav">
+                    <a class="sidebar-nav-item active" data-page="page-student-home" onclick="goToPage('page-student-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg><span class="nav-text">Inicio</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-chats" onclick="goToPage('page-student-chats')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="nav-text">Chats Activos</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-monitors" onclick="goToPage('page-student-monitors')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">Estado Monitores</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-history" onclick="goToPage('page-student-history')"><svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg><span class="nav-text">Historial</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-settings" onclick="goToPage('page-student-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-4.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="nav-text">Configuración</span></a>
+                </div>
+                <div class="sidebar-bottom">
+                    <a class="sidebar-nav-item" data-page="page-student-support" onclick="goToPage('page-student-support')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="nav-text">Soporte</span></a>
+                    <a class="sidebar-nav-item logout" onclick="goToPage('page-profile')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="nav-text">Salir De La Cuenta</span></a>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="dashboard-content">
+                    <div class="dashboard-welcome"><h1>Buenos días, Carlos 👋</h1><p>Bienvenido a tu espacio de bienestar académico. ¿Cómo podemos ayudarte hoy?</p></div>
+                    <div class="dashboard-stats">
+                        <div class="stat-card"><div class="stat-icon" style="background:#dbeafe;"><svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="stat-value">3</div><div class="stat-label">Chats este mes</div></div>
+                        <div class="stat-card"><div class="stat-icon" style="background:#f0fdf4;"><svg viewBox="0 0 24 24" fill="none" stroke="#22c55e"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg></div><div class="stat-value">12</div><div class="stat-label">Sesiones completadas</div></div>
+                        <div class="stat-card"><div class="stat-icon" style="background:#fef3c7;"><svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></div><div class="stat-value">45m</div><div class="stat-label">Tiempo promedio</div></div>
+                        <div class="stat-card"><div class="stat-icon" style="background:#fce7f3;"><svg viewBox="0 0 24 24" fill="none" stroke="#ec4899"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><div class="stat-value">89%</div><div class="stat-label">Satisfacción</div></div>
+                    </div>
+                    <h3 class="dashboard-section-title">Accesos Rápidos</h3>
+                    <div class="quick-actions">
+                        <div class="quick-action-card" onclick="goToPage('page-student-chats')"><div class="qa-icon" style="background:#dbeafe;"><svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h4>Iniciar Conversación</h4><p>Conecta con tu monitor académico asignado</p></div>
+                        <div class="quick-action-card" onclick="goToPage('page-student-monitors')"><div class="qa-icon" style="background:#f0fdf4;"><svg viewBox="0 0 24 24" fill="none" stroke="#22c55e"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><h4>Ver Monitores</h4><p>Consulta el estado de disponibilidad</p></div>
+                        <div class="quick-action-card" onclick="goToPage('page-student-history')"><div class="qa-icon" style="background:#fef3c7;"><svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg></div><h4>Mi Historial</h4><p>Revisa tus sesiones y conversaciones pasadas</p></div>
+                    </div>
+                    <h3 class="dashboard-section-title">Actividad Reciente</h3>
+                    <div class="recent-activity">
+                        <div class="activity-item"><div class="activity-dot" style="background:#22c55e;"></div><div class="activity-text">Sesión con Monitor Académico - Facultad de Ingeniería</div><div class="activity-time">Hoy, 10:06 AM</div></div>
+                        <div class="activity-item"><div class="activity-dot" style="background:#3b82f6;"></div><div class="activity-text">Archivo compartido: Cronograma_Octubre.pdf</div><div class="activity-time">Ayer, 3:30 PM</div></div>
+                        <div class="activity-item"><div class="activity-dot" style="background:#f59e0b;"></div><div class="activity-text">Sesión con Monitor Académico - Gestión del tiempo</div><div class="activity-time">12 Oct, 11:00 AM</div></div>
+                        <div class="activity-item"><div class="activity-dot" style="background:#ec4899;"></div><div class="activity-text">Perfil de bienestar actualizado</div><div class="activity-time">10 Oct, 9:15 AM</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Chats Activos -->
+    <div id="page-student-chats" class="page">
+        <div class="app-layout">
+            <div class="sidebar">
+                <div class="sidebar-logo"><h3>BIENESTAR UCA</h3><p>ACADEMIC SANCTUARY</p></div>
+                <div class="sidebar-nav">
+                    <a class="sidebar-nav-item" data-page="page-student-home" onclick="goToPage('page-student-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg><span class="nav-text">Inicio</span></a>
+                    <a class="sidebar-nav-item active" data-page="page-student-chats" onclick="goToPage('page-student-chats')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="nav-text">Chats Activos</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-monitors" onclick="goToPage('page-student-monitors')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">Estado Monitores</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-history" onclick="goToPage('page-student-history')"><svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg><span class="nav-text">Historial</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-settings" onclick="goToPage('page-student-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-4.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="nav-text">Configuración</span></a>
+                </div>
+                <div class="sidebar-bottom">
+                    <a class="sidebar-nav-item" data-page="page-student-support" onclick="goToPage('page-student-support')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="nav-text">Soporte</span></a>
+                    <a class="sidebar-nav-item logout" onclick="goToPage('page-profile')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="nav-text">Salir De La Cuenta</span></a>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="chats-list-header"><h1>Chats Activos</h1><p>Tus conversaciones recientes con monitores académicos</p></div>
+                <div class="chats-list-container">
+                    <div class="chat-list-item" onclick="openStudentChat('Monitor Académico - Ingeniería')">
+                        <div class="chat-list-avatar"><div style="width:44px;height:44px;background:#0a1628;border-radius:8px;display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="white" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><span class="online-indicator"></span></div>
+                        <div class="chat-list-info"><h4>Monitor Académico</h4><p>Facultad de Ingeniería - Entiendo perfectamente. Es común sentir esa presión en el último año...</p></div>
+                        <div class="chat-list-meta"><div class="time-label">10:06 AM</div><div class="unread-badge">2</div></div>
+                    </div>
+                    <div class="chat-list-item" onclick="showToast('Este monitor está offline')">
+                        <div class="chat-list-avatar"><div style="width:44px;height:44px;background:#6b7280;border-radius:8px;display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="white" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div></div>
+                        <div class="chat-list-info"><h4>Monitor Académico</h4><p>Ciencias de la Salud - Gracias por compartir tu avance. Vamos a revisar...</p></div>
+                        <div class="chat-list-meta"><div class="time-label">Ayer</div></div>
+                    </div>
+                    <div class="chat-list-item" onclick="showToast('Este monitor está offline')">
+                        <div class="chat-list-avatar"><div style="width:44px;height:44px;background:#6b7280;border-radius:8px;display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="white" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div></div>
+                        <div class="chat-list-info"><h4>Monitor Académico</h4><p>Derecho & Política - Perfecto, nos vemos en la próxima sesión de mentoría...</p></div>
+                        <div class="chat-list-meta"><div class="time-label">12 Oct</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Estado Monitores -->
+    <div id="page-student-monitors" class="page">
+        <div class="app-layout">
+            <div class="sidebar">
+                <div class="sidebar-logo"><h3>BIENESTAR UCA</h3><p>ACADEMIC SANCTUARY</p></div>
+                <div class="sidebar-nav">
+                    <a class="sidebar-nav-item" data-page="page-student-home" onclick="goToPage('page-student-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg><span class="nav-text">Inicio</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-chats" onclick="goToPage('page-student-chats')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="nav-text">Chats Activos</span></a>
+                    <a class="sidebar-nav-item active" data-page="page-student-monitors" onclick="goToPage('page-student-monitors')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">Estado Monitores</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-history" onclick="goToPage('page-student-history')"><svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg><span class="nav-text">Historial</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-settings" onclick="goToPage('page-student-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-4.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="nav-text">Configuración</span></a>
+                </div>
+                <div class="sidebar-bottom">
+                    <a class="sidebar-nav-item" data-page="page-student-support" onclick="goToPage('page-student-support')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="nav-text">Soporte</span></a>
+                    <a class="sidebar-nav-item logout" onclick="goToPage('page-profile')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="nav-text">Salir De La Cuenta</span></a>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="monitors-header-section">
+                    <div><h1>Monitores<br>Académicos</h1><div class="underline-bar"></div></div>
+                    <div class="monitors-online-count">
+                        <div class="online-icons-group">
+                            <div class="online-icon-box"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" fill="white"/><line x1="8" y1="21" x2="16" y2="21" stroke="white" stroke-width="2"/><line x1="12" y1="17" x2="12" y2="21" stroke="white" stroke-width="2"/></svg></div>
+                            <div class="online-icon-box" style="opacity:0.5"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" fill="white"/><line x1="8" y1="21" x2="16" y2="21" stroke="white" stroke-width="2"/><line x1="12" y1="17" x2="12" y2="21" stroke="white" stroke-width="2"/></svg></div>
+                            <div class="online-icon-box" style="opacity:0.3"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" fill="white"/><line x1="8" y1="21" x2="16" y2="21" stroke="white" stroke-width="2"/><line x1="12" y1="17" x2="12" y2="21" stroke="white" stroke-width="2"/></svg></div>
+                        </div>
+                        <span class="online-count-text"><strong>1</strong> Activo ahora</span>
+                    </div>
+                </div>
+                <div class="monitors-grid-page">
+                    <div class="monitor-card-page">
+                        <div class="monitor-card-top-section">
+                            <div class="monitor-card-avatar-box"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span class="status-indicator online"></span></div>
+                            <span class="monitor-card-status-badge online-badge">Online</span>
+                        </div>
+                        <h3>Monitor Académico</h3>
+                        <p class="faculty-name">Facultad de Ingeniería</p>
+                        <div class="monitor-card-tags-section"><span class="monitor-card-tag-item active-tag-item">Cálculo II</span><span class="monitor-card-tag-item active-tag-item">Física I</span></div>
+                        <button class="monitor-card-btn-section primary-btn" onclick="openStudentChat('Monitor Académico - Ingeniería')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>INICIAR CHAT</button>
+                    </div>
+                    <div class="monitor-card-page">
+                        <div class="monitor-card-top-section">
+                            <div class="monitor-card-avatar-box"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span class="status-indicator offline"></span></div>
+                            <span class="monitor-card-status-badge offline-badge">Offline</span>
+                        </div>
+                        <h3>Monitor Académico</h3>
+                        <p class="faculty-name">Ciencias de la Salud</p>
+                        <div class="monitor-card-tags-section"><span class="monitor-card-tag-item">Anatomía</span><span class="monitor-card-tag-item">Bioquímica</span></div>
+                        <button class="monitor-card-btn-section secondary-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>INICIAR CHAT</button>
+                    </div>
+                    <div class="monitor-card-page">
+                        <div class="monitor-card-top-section">
+                            <div class="monitor-card-avatar-box"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span class="status-indicator offline"></span></div>
+                            <span class="monitor-card-status-badge offline-badge">Offline</span>
+                        </div>
+                        <h3>Monitor Académico</h3>
+                        <p class="faculty-name">Derecho & Política</p>
+                        <div class="monitor-card-tags-section"><span class="monitor-card-tag-item">Lógica</span><span class="monitor-card-tag-item">Derecho Romano</span></div>
+                        <button class="monitor-card-btn-section secondary-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>INICIAR CHAT</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Historial -->
+    <div id="page-student-history" class="page">
+        <div class="app-layout">
+            <div class="sidebar">
+                <div class="sidebar-logo"><h3>BIENESTAR UCA</h3><p>ACADEMIC SANCTUARY</p></div>
+                <div class="sidebar-nav">
+                    <a class="sidebar-nav-item" data-page="page-student-home" onclick="goToPage('page-student-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg><span class="nav-text">Inicio</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-chats" onclick="goToPage('page-student-chats')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="nav-text">Chats Activos</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-monitors" onclick="goToPage('page-student-monitors')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">Estado Monitores</span></a>
+                    <a class="sidebar-nav-item active" data-page="page-student-history" onclick="goToPage('page-student-history')"><svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg><span class="nav-text">Historial</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-settings" onclick="goToPage('page-student-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-4.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="nav-text">Configuración</span></a>
+                </div>
+                <div class="sidebar-bottom">
+                    <a class="sidebar-nav-item" data-page="page-student-support" onclick="goToPage('page-student-support')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="nav-text">Soporte</span></a>
+                    <a class="sidebar-nav-item logout" onclick="goToPage('page-profile')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="nav-text">Salir De La Cuenta</span></a>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="history-content">
+                    <h1>Historial de Conversaciones</h1>
+                    <p>Revisa todas tus sesiones y conversaciones pasadas</p>
+                    <div class="history-search"><input type="text" placeholder="Buscar en historial..."><button class="history-filter-btn">Filtrar ▾</button></div>
+                    <div class="history-item" onclick="showToast('Abriendo conversación...')"><div class="history-item-icon" style="background:#dbeafe;"><svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="history-item-info"><h4>Sesión de Gestión del Tiempo</h4><p>Monitor Académico - Facultad de Ingeniería</p></div><div class="history-item-date">15 Oct 2024</div></div>
+                    <div class="history-item" onclick="showToast('Abriendo conversación...')"><div class="history-item-icon" style="background:#f0fdf4;"><svg viewBox="0 0 24 24" fill="none" stroke="#22c55e"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="history-item-info"><h4>Planificación de Último Semestre</h4><p>Monitor Académico - Facultad de Ingeniería</p></div><div class="history-item-date">12 Oct 2024</div></div>
+                    <div class="history-item" onclick="showToast('Abriendo conversación...')"><div class="history-item-icon" style="background:#fef3c7;"><svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="history-item-info"><h4>Apoyo emocional - Estrés académico</h4><p>Monitor Académico - Facultad de Ingeniería</p></div><div class="history-item-date">8 Oct 2024</div></div>
+                    <div class="history-item" onclick="showToast('Abriendo conversación...')"><div class="history-item-icon" style="background:#fce7f3;"><svg viewBox="0 0 24 24" fill="none" stroke="#ec4899"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="history-item-info"><h4>Primera sesión de bienvenida</h4><p>Monitor Académico - Facultad de Ingeniería</p></div><div class="history-item-date">2 Oct 2024</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Configuración -->
+    <div id="page-student-settings" class="page">
+        <div class="app-layout">
+            <div class="sidebar">
+                <div class="sidebar-logo"><h3>BIENESTAR UCA</h3><p>ACADEMIC SANCTUARY</p></div>
+                <div class="sidebar-nav">
+                    <a class="sidebar-nav-item" data-page="page-student-home" onclick="goToPage('page-student-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg><span class="nav-text">Inicio</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-chats" onclick="goToPage('page-student-chats')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="nav-text">Chats Activos</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-monitors" onclick="goToPage('page-student-monitors')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">Estado Monitores</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-history" onclick="goToPage('page-student-history')"><svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg><span class="nav-text">Historial</span></a>
+                    <a class="sidebar-nav-item active" data-page="page-student-settings" onclick="goToPage('page-student-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-4.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="nav-text">Configuración</span></a>
+                </div>
+                <div class="sidebar-bottom">
+                    <a class="sidebar-nav-item" data-page="page-student-support" onclick="goToPage('page-student-support')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="nav-text">Soporte</span></a>
+                    <a class="sidebar-nav-item logout" onclick="goToPage('page-profile')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="nav-text">Salir De La Cuenta</span></a>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="settings-content">
+                    <h1>Configuración</h1>
+                    <p>Personaliza tu experiencia en Academic Sanctuary</p>
+                    <div class="settings-section"><h3>Notificaciones</h3><div class="settings-row"><div class="settings-row-label">Notificaciones por email<small>Recibe actualizaciones de tus sesiones</small></div><div class="toggle-switch active" onclick="this.classList.toggle('active')"></div></div><div class="settings-row"><div class="settings-row-label">Notificaciones push<small>Alertas en tiempo real del navegador</small></div><div class="toggle-switch" onclick="this.classList.toggle('active')"></div></div><div class="settings-row"><div class="settings-row-label">Recordatorios de sesión<small>Aviso 15 minutos antes de tu cita</small></div><div class="toggle-switch active" onclick="this.classList.toggle('active')"></div></div></div>
+                    <div class="settings-section"><h3>Perfil Académico</h3><div class="settings-input-row"><label>Carrera</label><input type="text" value="Ingeniería en Sistemas"></div><div class="settings-input-row"><label>Semestre Actual</label><select><option>8° Semestre</option><option>9° Semestre</option><option selected>10° Semestre</option></select></div></div>
+                    <div class="settings-section"><h3>Privacidad</h3><div class="settings-row"><div class="settings-row-label">Mostrar estado en línea<small>Permite que los monitores vean tu disponibilidad</small></div><div class="toggle-switch active" onclick="this.classList.toggle('active')"></div></div><div class="settings-row"><div class="settings-row-label">Datos de bienestar<small>Compartir información de bienestar con monitores</small></div><div class="toggle-switch active" onclick="this.classList.toggle('active')"></div></div></div>
+                    <button class="settings-save-btn" onclick="showToast('Configuración guardada correctamente', true)">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Soporte -->
+    <div id="page-student-support" class="page">
+        <div class="app-layout">
+            <div class="sidebar">
+                <div class="sidebar-logo"><h3>BIENESTAR UCA</h3><p>ACADEMIC SANCTUARY</p></div>
+                <div class="sidebar-nav">
+                    <a class="sidebar-nav-item" data-page="page-student-home" onclick="goToPage('page-student-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg><span class="nav-text">Inicio</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-chats" onclick="goToPage('page-student-chats')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="nav-text">Chats Activos</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-monitors" onclick="goToPage('page-student-monitors')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">Estado Monitores</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-history" onclick="goToPage('page-student-history')"><svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg><span class="nav-text">Historial</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-settings" onclick="goToPage('page-student-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-4.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="nav-text">Configuración</span></a>
+                </div>
+                <div class="sidebar-bottom">
+                    <a class="sidebar-nav-item active" data-page="page-student-support" onclick="goToPage('page-student-support')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="nav-text">Soporte</span></a>
+                    <a class="sidebar-nav-item logout" onclick="goToPage('page-profile')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="nav-text">Salir De La Cuenta</span></a>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="support-content">
+                    <h1>Centro de Soporte</h1>
+                    <p>¿Necesitas ayuda? Estamos aquí para asistirte</p>
+                    <div class="support-cards-grid">
+                        <div class="support-card" onclick="showToast('Abriendo preguntas frecuentes...')"><div class="support-card-icon" style="background:#dbeafe;"><svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><h4>Preguntas Frecuentes</h4><p>Encuentra respuestas a las preguntas más comunes</p></div>
+                        <div class="support-card" onclick="showToast('Conectando con soporte técnico...')"><div class="support-card-icon" style="background:#f0fdf4;"><svg viewBox="0 0 24 24" fill="none" stroke="#22c55e"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h4>Chat en Vivo</h4><p>Habla directamente con nuestro equipo de soporte</p></div>
+                        <div class="support-card" onclick="showToast('Abriendo guía de usuario...')"><div class="support-card-icon" style="background:#fef3c7;"><svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div><h4>Guía de Usuario</h4><p>Aprende a usar todas las funciones del sistema</p></div>
+                    </div>
+                    <div class="support-form">
+                        <h3>Enviar un Ticket de Soporte</h3>
+                        <div class="form-row"><label>Asunto</label><input type="text" placeholder="Describe brevemente tu problema"></div>
+                        <div class="form-row"><label>Categoría</label><select><option>Problema técnico</option><option>Consulta académica</option><option>Sugerencia</option><option>Reportar un error</option></select></div>
+                        <div class="form-row"><label>Descripción</label><textarea rows="4" placeholder="Describe tu problema con detalle..."></textarea></div>
+                        <button class="submit-btn" onclick="showToast('Ticket enviado correctamente. Te responderemos pronto.', true)">Enviar Ticket</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Chat Page -->
+    <div id="page-student-chat" class="page">
+        <div class="app-layout">
+            <div class="sidebar">
+                <div class="sidebar-logo"><h3>BIENESTAR UCA</h3><p>ACADEMIC SANCTUARY</p></div>
+                <div class="sidebar-nav">
+                    <a class="sidebar-nav-item" data-page="page-student-home" onclick="goToPage('page-student-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg><span class="nav-text">Inicio</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-chats" onclick="goToPage('page-student-chats')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="nav-text">Chats Activos</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-monitors" onclick="goToPage('page-student-monitors')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">Estado Monitores</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-history" onclick="goToPage('page-student-history')"><svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg><span class="nav-text">Historial</span></a>
+                    <a class="sidebar-nav-item" data-page="page-student-settings" onclick="goToPage('page-student-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-4.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="nav-text">Configuración</span></a>
+                </div>
+                <div class="sidebar-bottom">
+                    <a class="sidebar-nav-item" data-page="page-student-support" onclick="goToPage('page-student-support')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="nav-text">Soporte</span></a>
+                    <a class="sidebar-nav-item logout" onclick="goToPage('page-profile')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="nav-text">Salir De La Cuenta</span></a>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="chat-layout">
+                    <div class="chat-header-bar">
+                        <div class="chat-header-avatar-box"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21" stroke="white" stroke-width="2"/><line x1="12" y1="17" x2="12" y2="21" stroke="white" stroke-width="2"/></svg><span class="online-dot"></span></div>
+                        <div class="chat-header-details"><h4 id="studentChatTitle">Monitor Académico</h4><p>● Disponible ahora</p></div>
+                        <div class="chat-header-actions">
+                            <button onclick="showToast('Notificaciones activadas')"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></button>
+                            <button onclick="showToast('Opciones del chat')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+                        </div>
+                    </div>
+                    <div class="chat-main-area">
+                        <div class="chat-messages-area">
+                            <div class="chat-messages-scroll" id="studentChatMessages">
+                                <div class="chat-date-divider">HOY, 15 DE OCTUBRE</div>
+                                <div class="chat-msg incoming-msg">
+                                    <div class="chat-msg-avatar bot-avatar"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" fill="none" stroke="white" stroke-width="1.5"/><line x1="8" y1="21" x2="16" y2="21" stroke="white" stroke-width="1.5"/><line x1="12" y1="17" x2="12" y2="21" stroke="white" stroke-width="1.5"/></svg></div>
+                                    <div><div class="chat-msg-bubble">Hola. Bienvenido al sistema de soporte de la UCA. Soy tu Monitor Académico asignado para esta sesión de bienestar. ¿En qué podemos apoyarte hoy para facilitar tu trayectoria universitaria?</div><div class="chat-msg-time">UCA &nbsp; 10:00 AM</div></div>
+                                </div>
+                                <div class="chat-msg outgoing-msg">
+                                    <div class="chat-msg-avatar user-avatar"><img src="https://image.qwenlm.ai/public_source/86c0ed85-d19e-4e1b-a8f5-72cdb594ef24/18c71744a-8a6b-4666-9933-adb749520eb0.png" alt="User"></div>
+                                    <div><div class="chat-msg-bubble">Buenos días. Tengo una duda respecto a la gestión del tiempo y el equilibrio entre mis materias de último año y las actividades del programa de bienestar. Siento que la carga es un poco pesada este semestre.</div><div class="chat-msg-time">10:05 AM</div></div>
+                                </div>
+                                <div class="chat-msg incoming-msg">
+                                    <div class="chat-msg-avatar bot-avatar"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" fill="none" stroke="white" stroke-width="1.5"/><line x1="8" y1="21" x2="16" y2="21" stroke="white" stroke-width="1.5"/><line x1="12" y1="17" x2="12" y2="21" stroke="white" stroke-width="1.5"/></svg></div>
+                                    <div><div class="chat-msg-bubble">Entiendo perfectamente. Es común sentir esa presión en el último año. ¿Te gustaría que revisáramos juntos tu cronograma actual o prefieres agendar una sesión personalizada de mentoría para organizar tus prioridades?</div><div class="chat-msg-time">UCA &nbsp; 10:06 AM</div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="context-sidebar">
+                            <div class="context-sidebar-title">CONTEXTO ACADÉMICO</div>
+                            <div class="context-item"><div class="context-item-label">Estudiante</div><div class="context-item-value">Carlos M.</div></div>
+                            <div class="context-item"><div class="context-item-label">Carrera</div><div class="context-item-value">Ing. Sistemas</div></div>
+                            <div class="context-item"><div class="context-item-label">Semestre</div><div class="context-item-value">10° Semestre</div></div>
+                            <div class="context-item"><div class="context-item-label">Estado Mental</div><div class="context-item-value"><span class="mental-tag">Ansioso</span></div></div>
+                            <div class="context-section-divider"></div>
+                            <div class="context-notes-title">NOTAS DEL MONITOR</div>
+                            <div class="context-note-item">Estudiante reporta sobrecarga académica.</div>
+                            <div class="context-note-item">Requiere apoyo en gestión del tiempo.</div>
+                            <div class="context-note-item">Considerar sesión de mentoría personalizada.</div>
+                        </div>
+                    </div>
+                    <div class="file-preview-bar" id="studentFilePreview">
+                        <div class="file-preview-icon"><svg viewBox="0 0 24 24"><path d="M14,2H6A2,2,0,0,0,4,4V20a2,2,0,0,0,2,2H18a2,2,0,0,0,2-2V8Z"/></svg></div>
+                        <div class="file-preview-info"><div class="file-name" id="studentFileName">archivo.pdf</div><div class="file-size" id="studentFileSize">2.4 MB</div></div>
+                        <button class="file-preview-remove" onclick="removeStudentFile()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+                    </div>
+                    <div class="chat-input-section">
+                        <div class="chat-input-bar">
+                            <button class="file-upload-btn" id="studentFileBtn">
+                                <svg viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                                <input type="file" id="studentFileInput" onchange="handleStudentFileSelect(event)">
+                            </button>
+                            <input type="text" class="msg-input" id="studentMsgInput" placeholder="Escribe tu mensaje aquí..." onkeypress="handleStudentKeypress(event)">
+                            <button class="emoji-button" onclick="showToast('Selector de emojis')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></button>
+                            <button class="send-button" onclick="sendStudentMessage()">Enviar<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></button>
+                        </div>
+                    </div>
+                    <div class="chat-footer-bar">Dirección de Bienestar Universitario © 2024 • Universidad Católica Americana</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MONITOR PAGES ===== -->
+    <div id="page-monitor-home" class="page">
+        <div class="app-layout">
+            <div class="sidebar">
+                <div class="sidebar-logo"><h3>BIENESTAR UCA</h3><p>ACADEMIC SANCTUARY</p></div>
+                <div class="sidebar-nav">
+                    <a class="sidebar-nav-item active" data-page="page-monitor-home" onclick="goToPage('page-monitor-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg><span class="nav-text">Inicio</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-chats" onclick="goToPage('page-monitor-chats')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="nav-text">Chats Activos</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-students" onclick="goToPage('page-monitor-students')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">Estado Estudiantes</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-history" onclick="goToPage('page-monitor-history')"><svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg><span class="nav-text">Historial</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-settings" onclick="goToPage('page-monitor-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-4.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="nav-text">Configuración</span></a>
+                </div>
+                <div class="sidebar-bottom">
+                    <a class="sidebar-nav-item" data-page="page-monitor-support" onclick="goToPage('page-monitor-support')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="nav-text">Soporte</span></a>
+                    <a class="sidebar-nav-item logout" onclick="goToPage('page-profile')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="nav-text">Salir De La Cuenta</span></a>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="dashboard-content">
+                    <div class="dashboard-welcome"><h1>Panel de Monitor 📊</h1><p>Resumen de tu actividad como Monitor Académico - Facultad de Ingeniería</p></div>
+                    <div class="dashboard-stats">
+                        <div class="stat-card"><div class="stat-icon" style="background:#dbeafe;"><svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="stat-value">24</div><div class="stat-label">Estudiantes asignados</div></div>
+                        <div class="stat-card"><div class="stat-icon" style="background:#f0fdf4;"><svg viewBox="0 0 24 24" fill="none" stroke="#22c55e"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="stat-value">5</div><div class="stat-label">Chats activos hoy</div></div>
+                        <div class="stat-card"><div class="stat-icon" style="background:#fef3c7;"><svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></div><div class="stat-value">3.2h</div><div class="stat-label">Tiempo en línea</div></div>
+                        <div class="stat-card"><div class="stat-icon" style="background:#fce7f3;"><svg viewBox="0 0 24 24" fill="none" stroke="#ec4899"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg></div><div class="stat-value">96%</div><div class="stat-label">Tasa de respuesta</div></div>
+                    </div>
+                    <h3 class="dashboard-section-title">Estudiantes Asignados</h3>
+                    <div class="monitor-students-grid">
+                        <div class="student-assignment-card" onclick="openMonitorChat('Carlos M. - Ing. Sistemas')">
+                            <div class="student-assignment-avatar"><img src="https://image.qwenlm.ai/public_source/86c0ed85-d19e-4e1b-a8f5-72cdb594ef24/18c71744a-8a6b-4666-9933-adb749520eb0.png" alt="Carlos"></div>
+                            <div class="student-assignment-info"><h4>Carlos M.</h4><p>Ing. Sistemas - 10° Semestre</p></div>
+                            <span class="student-assignment-status active-status">● Activo</span>
+                        </div>
+                        <div class="student-assignment-card" onclick="openMonitorChat('María L. - Ing. Sistemas')">
+                            <div class="student-assignment-avatar" style="background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#6b7280;">ML</div>
+                            <div class="student-assignment-info"><h4>María L.</h4><p>Ing. Sistemas - 9° Semestre</p></div>
+                            <span class="student-assignment-status pending-status">● Pendiente</span>
+                        </div>
+                        <div class="student-assignment-card" onclick="showToast('Este estudiante está offline')">
+                            <div class="student-assignment-avatar" style="background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#6b7280;">JP</div>
+                            <div class="student-assignment-info"><h4>Juan P.</h4><p>Ing. Sistemas - 10° Semestre</p></div>
+                            <span class="student-assignment-status pending-status">● Offline</span>
+                        </div>
+                        <div class="student-assignment-card" onclick="showToast('Este estudiante está offline')">
+                            <div class="student-assignment-avatar" style="background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#6b7280;">AR</div>
+                            <div class="student-assignment-info"><h4>Ana R.</h4><p>Ing. Sistemas - 8° Semestre</p></div>
+                            <span class="student-assignment-status pending-status">● Offline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-monitor-chats" class="page">
+        <div class="app-layout">
+            <div class="sidebar">
+                <div class="sidebar-logo"><h3>BIENESTAR UCA</h3><p>ACADEMIC SANCTUARY</p></div>
+                <div class="sidebar-nav">
+                    <a class="sidebar-nav-item" data-page="page-monitor-home" onclick="goToPage('page-monitor-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg><span class="nav-text">Inicio</span></a>
+                    <a class="sidebar-nav-item active" data-page="page-monitor-chats" onclick="goToPage('page-monitor-chats')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="nav-text">Chats Activos</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-students" onclick="goToPage('page-monitor-students')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">Estado Estudiantes</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-history" onclick="goToPage('page-monitor-history')"><svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg><span class="nav-text">Historial</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-settings" onclick="goToPage('page-monitor-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-4.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="nav-text">Configuración</span></a>
+                </div>
+                <div class="sidebar-bottom">
+                    <a class="sidebar-nav-item" data-page="page-monitor-support" onclick="goToPage('page-monitor-support')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="nav-text">Soporte</span></a>
+                    <a class="sidebar-nav-item logout" onclick="goToPage('page-profile')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="nav-text">Salir De La Cuenta</span></a>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="chats-list-header"><h1>Chats Activos</h1><p>Conversaciones activas con tus estudiantes asignados</p></div>
+                <div class="chats-list-container">
+                    <div class="chat-list-item" onclick="openMonitorChat('Carlos M.')">
+                        <div class="chat-list-avatar"><img src="https://image.qwenlm.ai/public_source/86c0ed85-d19e-4e1b-a8f5-72cdb594ef24/18c71744a-8a6b-4666-9933-adb749520eb0.png" alt="Carlos"><span class="online-indicator"></span></div>
+                        <div class="chat-list-info"><h4>Carlos M.</h4><p>Ing. Sistemas - Buenos días. Tengo una duda respecto a la gestión del tiempo...</p></div>
+                        <div class="chat-list-meta"><div class="time-label">10:05 AM</div><div class="unread-badge">3</div></div>
+                    </div>
+                    <div class="chat-list-item" onclick="openMonitorChat('María L.')">
+                        <div class="chat-list-avatar"><div style="width:44px;height:44px;background:#f3f4f6;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#6b7280;">ML</div></div>
+                        <div class="chat-list-info"><h4>María L.</h4><p>Ing. Sistemas - Gracias por la sesión de ayer, me ayudó mucho con...</p></div>
+                        <div class="chat-list-meta"><div class="time-label">Ayer</div></div>
+                    </div>
+                    <div class="chat-list-item" onclick="showToast('Este chat está inactivo')">
+                        <div class="chat-list-avatar"><div style="width:44px;height:44px;background:#f3f4f6;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#6b7280;">JP</div></div>
+                        <div class="chat-list-info"><h4>Juan P.</h4><p>Ing. Sistemas - Perfecto, nos vemos en la próxima sesión programada...</p></div>
+                        <div class="chat-list-meta"><div class="time-label">10 Oct</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Monitor Estado Estudiantes - NUEVO DISEÑO -->
+    <div id="page-monitor-students" class="page">
+        <div class="app-layout">
+            <div class="sidebar">
+                <div class="sidebar-logo"><h3>BIENESTAR UCA</h3><p>ACADEMIC SANCTUARY</p></div>
+                <div class="sidebar-nav">
+                    <a class="sidebar-nav-item" data-page="page-monitor-home" onclick="goToPage('page-monitor-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg><span class="nav-text">Inicio</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-chats" onclick="goToPage('page-monitor-chats')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="nav-text">Chats Activos</span></a>
+                    <a class="sidebar-nav-item active" data-page="page-monitor-students" onclick="goToPage('page-monitor-students')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">Estado Estudiantes</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-history" onclick="goToPage('page-monitor-history')"><svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg><span class="nav-text">Historial</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-settings" onclick="goToPage('page-monitor-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-4.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="nav-text">Configuración</span></a>
+                </div>
+                <div class="sidebar-bottom">
+                    <a class="sidebar-nav-item" data-page="page-monitor-support" onclick="goToPage('page-monitor-support')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="nav-text">Soporte</span></a>
+                    <a class="sidebar-nav-item logout" onclick="goToPage('page-profile')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="nav-text">Salir De La Cuenta</span></a>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="students-header-section">
+                    <div><h1>Estado de<br>Estudiantes</h1><div class="underline-bar"></div></div>
+                    <div class="students-online-count">
+                        <div class="students-online-icons">
+                            <div class="students-online-icon dark"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                            <div class="students-online-icon light"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                        </div>
+                        <span class="students-online-count-text"><strong>2</strong> en línea ahora</span>
+                    </div>
+                </div>
+                <div class="students-grid-page">
+                    <!-- Card 1 - Carlos M. Online -->
+                    <div class="student-card-page" onclick="openMonitorChat('Carlos M.')">
+                        <div class="student-card-header">
+                            <div class="student-card-info">
+                                <div class="student-card-avatar">
+                                    <img src="https://image.qwenlm.ai/public_source/86c0ed85-d19e-4e1b-a8f5-72cdb594ef24/18c71744a-8a6b-4666-9933-adb749520eb0.png" alt="Carlos">
+                                    <span class="status-dot online"></span>
+                                </div>
+                                <div class="student-card-name">Carlos M.</div>
+                                <div class="student-card-career">Ing. Sistemas</div>
+                                <div class="student-card-semester">10° Semestre</div>
+                                <span class="student-card-mental-tag anxious">Ansioso</span>
+                            </div>
+                            <span class="student-card-status-text online">ONLINE</span>
+                        </div>
+                        <div class="student-card-chat-area online-chat" onclick="event.stopPropagation();openMonitorChat('Carlos M.')">
+                            <svg viewBox="0 0 200 180" fill="none">
+                                <rect x="10" y="10" width="140" height="110" rx="16" stroke="white" stroke-width="8" fill="none"/>
+                                <path d="M30 120 L10 160 L60 120" stroke="white" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="chat-text">INICIAR<br>CHAT</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 - María L. Online -->
+                    <div class="student-card-page" onclick="openMonitorChat('María L.')">
+                        <div class="student-card-header">
+                            <div class="student-card-info">
+                                <div class="student-card-avatar initials">
+                                    ML
+                                    <span class="status-dot online"></span>
+                                </div>
+                                <div class="student-card-name">María L.</div>
+                                <div class="student-card-career">Ing. Sistemas</div>
+                                <div class="student-card-semester">9° Semestre</div>
+                                <span class="student-card-mental-tag stable">Estable</span>
+                            </div>
+                            <span class="student-card-status-text online">ONLINE</span>
+                        </div>
+                        <div class="student-card-chat-area online-chat" onclick="event.stopPropagation();openMonitorChat('María L.')">
+                            <svg viewBox="0 0 200 180" fill="none">
+                                <rect x="10" y="10" width="140" height="110" rx="16" stroke="white" stroke-width="8" fill="none"/>
+                                <path d="M30 120 L10 160 L60 120" stroke="white" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="chat-text">INICIAR<br>CHAT</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 - Juan P. Offline -->
+                    <div class="student-card-page" onclick="showToast('Estudiante offline')">
+                        <div class="student-card-header">
+                            <div class="student-card-info">
+                                <div class="student-card-avatar initials">
+                                    JP
+                                    <span class="status-dot offline"></span>
+                                </div>
+                                <div class="student-card-name">Juan P.</div>
+                                <div class="student-card-career">Ing. Sistemas</div>
+                                <div class="student-card-semester">10° Semestre</div>
+                                <span class="student-card-mental-tag stressed">Estresado</span>
+                            </div>
+                            <span class="student-card-status-text offline">OFFLINE</span>
+                        </div>
+                        <div class="student-card-chat-area offline-chat">
+                            <svg viewBox="0 0 200 180" fill="none">
+                                <rect x="10" y="10" width="140" height="110" rx="16" stroke="#b0b5bf" stroke-width="8" fill="none"/>
+                                <path d="M30 120 L10 160 L60 120" stroke="#b0b5bf" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="chat-text">INICIAR<br>CHAT</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-monitor-history" class="page">
+        <div class="app-layout">
+            <div class="sidebar">
+                <div class="sidebar-logo"><h3>BIENESTAR UCA</h3><p>ACADEMIC SANCTUARY</p></div>
+                <div class="sidebar-nav">
+                    <a class="sidebar-nav-item" data-page="page-monitor-home" onclick="goToPage('page-monitor-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg><span class="nav-text">Inicio</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-chats" onclick="goToPage('page-monitor-chats')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="nav-text">Chats Activos</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-students" onclick="goToPage('page-monitor-students')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">Estado Estudiantes</span></a>
+                    <a class="sidebar-nav-item active" data-page="page-monitor-history" onclick="goToPage('page-monitor-history')"><svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg><span class="nav-text">Historial</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-settings" onclick="goToPage('page-monitor-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-4.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="nav-text">Configuración</span></a>
+                </div>
+                <div class="sidebar-bottom">
+                    <a class="sidebar-nav-item" data-page="page-monitor-support" onclick="goToPage('page-monitor-support')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="nav-text">Soporte</span></a>
+                    <a class="sidebar-nav-item logout" onclick="goToPage('page-profile')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="nav-text">Salir De La Cuenta</span></a>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="history-content">
+                    <h1>Historial de Sesiones</h1><p>Revisa todas las sesiones realizadas con tus estudiantes</p>
+                    <div class="history-search"><input type="text" placeholder="Buscar estudiante o tema..."><button class="history-filter-btn">Filtrar ▾</button></div>
+                    <div class="history-item" onclick="showToast('Abriendo sesión...')"><div class="history-item-icon" style="background:#dbeafe;"><svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="history-item-info"><h4>Carlos M. - Gestión del Tiempo</h4><p>Ing. Sistemas - Sesión sobre manejo de carga académica</p></div><div class="history-item-date">15 Oct 2024</div></div>
+                    <div class="history-item" onclick="showToast('Abriendo sesión...')"><div class="history-item-icon" style="background:#f0fdf4;"><svg viewBox="0 0 24 24" fill="none" stroke="#22c55e"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="history-item-info"><h4>María L. - Planificación Académica</h4><p>Ing. Sistemas - Revisión de cronograma de tesis</p></div><div class="history-item-date">13 Oct 2024</div></div>
+                    <div class="history-item" onclick="showToast('Abriendo sesión...')"><div class="history-item-icon" style="background:#fef3c7;"><svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="history-item-info"><h4>Juan P. - Apoyo Emocional</h4><p>Ing. Sistemas - Sesión de contención por estrés</p></div><div class="history-item-date">10 Oct 2024</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-monitor-settings" class="page">
+        <div class="app-layout">
+            <div class="sidebar">
+                <div class="sidebar-logo"><h3>BIENESTAR UCA</h3><p>ACADEMIC SANCTUARY</p></div>
+                <div class="sidebar-nav">
+                    <a class="sidebar-nav-item" data-page="page-monitor-home" onclick="goToPage('page-monitor-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg><span class="nav-text">Inicio</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-chats" onclick="goToPage('page-monitor-chats')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="nav-text">Chats Activos</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-students" onclick="goToPage('page-monitor-students')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">Estado Estudiantes</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-history" onclick="goToPage('page-monitor-history')"><svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg><span class="nav-text">Historial</span></a>
+                    <a class="sidebar-nav-item active" data-page="page-monitor-settings" onclick="goToPage('page-monitor-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-4.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="nav-text">Configuración</span></a>
+                </div>
+                <div class="sidebar-bottom">
+                    <a class="sidebar-nav-item" data-page="page-monitor-support" onclick="goToPage('page-monitor-support')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="nav-text">Soporte</span></a>
+                    <a class="sidebar-nav-item logout" onclick="goToPage('page-profile')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="nav-text">Salir De La Cuenta</span></a>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="settings-content">
+                    <h1>Configuración</h1><p>Personaliza tu panel de monitor académico</p>
+                    <div class="settings-section"><h3>Disponibilidad</h3><div class="settings-row"><div class="settings-row-label">Estado en línea<small>Permite que los estudiantes te vean disponible</small></div><div class="toggle-switch active" onclick="this.classList.toggle('active')"></div></div><div class="settings-row"><div class="settings-row-label">Modo ausente automático<small>Cambiar a ausente tras 15 min sin actividad</small></div><div class="toggle-switch active" onclick="this.classList.toggle('active')"></div></div></div>
+                    <div class="settings-section"><h3>Notificaciones</h3><div class="settings-row"><div class="settings-row-label">Alertas de nuevos mensajes<small>Recibe notificaciones de cada nuevo mensaje</small></div><div class="toggle-switch active" onclick="this.classList.toggle('active')"></div></div><div class="settings-row"><div class="settings-row-label">Resumen diario<small>Recibe un resumen de actividad al final del día</small></div><div class="toggle-switch" onclick="this.classList.toggle('active')"></div></div></div>
+                    <div class="settings-section"><h3>Perfil del Monitor</h3><div class="settings-input-row"><label>Facultad</label><input type="text" value="Facultad de Ingeniería"></div><div class="settings-input-row"><label>Materias Asignadas</label><input type="text" value="Cálculo II, Física I"></div><div class="settings-input-row"><label>Horario de Atención</label><select><option>Lunes a Viernes 8:00 - 17:00</option><option>Lunes a Viernes 9:00 - 18:00</option><option>Personalizado</option></select></div></div>
+                    <button class="settings-save-btn" onclick="showToast('Configuración guardada correctamente', true)">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-monitor-support" class="page">
+        <div class="app-layout">
+            <div class="sidebar">
+                <div class="sidebar-logo"><h3>BIENESTAR UCA</h3><p>ACADEMIC SANCTUARY</p></div>
+                <div class="sidebar-nav">
+                    <a class="sidebar-nav-item" data-page="page-monitor-home" onclick="goToPage('page-monitor-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg><span class="nav-text">Inicio</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-chats" onclick="goToPage('page-monitor-chats')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="nav-text">Chats Activos</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-students" onclick="goToPage('page-monitor-students')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">Estado Estudiantes</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-history" onclick="goToPage('page-monitor-history')"><svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg><span class="nav-text">Historial</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-settings" onclick="goToPage('page-monitor-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-4.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="nav-text">Configuración</span></a>
+                </div>
+                <div class="sidebar-bottom">
+                    <a class="sidebar-nav-item" data-page="page-monitor-support" onclick="goToPage('page-monitor-support')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="nav-text">Soporte</span></a>
+                    <a class="sidebar-nav-item logout" onclick="goToPage('page-profile')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="nav-text">Salir De La Cuenta</span></a>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="support-content">
+                    <h1>Centro de Soporte</h1><p>Recursos y asistencia para monitores académicos</p>
+                    <div class="support-cards-grid">
+                        <div class="support-card" onclick="showToast('Abriendo guía del monitor...')"><div class="support-card-icon" style="background:#dbeafe;"><svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div><h4>Guía del Monitor</h4><p>Manual completo de funciones y protocolos</p></div>
+                        <div class="support-card" onclick="showToast('Conectando con administración...')"><div class="support-card-icon" style="background:#f0fdf4;"><svg viewBox="0 0 24 24" fill="none" stroke="#22c55e"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h4>Contactar Administración</h4><p>Habla con el equipo de Bienestar Universitario</p></div>
+                        <div class="support-card" onclick="showToast('Abriendo reporte...')"><div class="support-card-icon" style="background:#fef3c7;"><svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><h4>Reportes de Actividad</h4><p>Genera reportes de tus sesiones y métricas</p></div>
+                    </div>
+                    <div class="support-form">
+                        <h3>Enviar Consulta</h3>
+                        <div class="form-row"><label>Asunto</label><input type="text" placeholder="Describe tu consulta"></div>
+                        <div class="form-row"><label>Tipo</label><select><option>Consulta administrativa</option><option>Problema técnico</option><option>Sugerencia de mejora</option><option>Reporte de estudiante</option></select></div>
+                        <div class="form-row"><label>Descripción</label><textarea rows="4" placeholder="Describe tu consulta con detalle..."></textarea></div>
+                        <button class="submit-btn" onclick="showToast('Consulta enviada. Te responderemos pronto.', true)">Enviar Consulta</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-monitor-chat" class="page">
+        <div class="app-layout">
+            <div class="sidebar">
+                <div class="sidebar-logo"><h3>BIENESTAR UCA</h3><p>ACADEMIC SANCTUARY</p></div>
+                <div class="sidebar-nav">
+                    <a class="sidebar-nav-item" data-page="page-monitor-home" onclick="goToPage('page-monitor-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg><span class="nav-text">Inicio</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-chats" onclick="goToPage('page-monitor-chats')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="nav-text">Chats Activos</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-students" onclick="goToPage('page-monitor-students')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">Estado Estudiantes</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-history" onclick="goToPage('page-monitor-history')"><svg viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg><span class="nav-text">Historial</span></a>
+                    <a class="sidebar-nav-item" data-page="page-monitor-settings" onclick="goToPage('page-monitor-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-4.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="nav-text">Configuración</span></a>
+                </div>
+                <div class="sidebar-bottom">
+                    <a class="sidebar-nav-item" data-page="page-monitor-support" onclick="goToPage('page-monitor-support')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="nav-text">Soporte</span></a>
+                    <a class="sidebar-nav-item logout" onclick="goToPage('page-profile')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="nav-text">Salir De La Cuenta</span></a>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="chat-layout">
+                    <div class="chat-header-bar">
+                        <div class="chat-header-avatar-box"><img src="https://image.qwenlm.ai/public_source/86c0ed85-d19e-4e1b-a8f5-72cdb594ef24/18c71744a-8a6b-4666-9933-adb749520eb0.png" alt="Student" style="width:100%;height:100%;border-radius:7px;object-fit:cover;"><span class="online-dot"></span></div>
+                        <div class="chat-header-details"><h4 id="monitorChatTitle">Carlos M.</h4><p>● Estudiante activo - Ing. Sistemas</p></div>
+                        <div class="chat-header-actions">
+                            <button onclick="showToast('Notificaciones activadas')"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></button>
+                            <button onclick="showToast('Opciones del chat')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+                        </div>
+                    </div>
+                    <div class="chat-main-area">
+                        <div class="chat-messages-area">
+                            <div class="chat-messages-scroll" id="monitorChatMessages">
+                                <div class="chat-date-divider">HOY, 15 DE OCTUBRE</div>
+                                <div class="chat-msg incoming-msg">
+                                    <div class="chat-msg-avatar user-avatar"><img src="https://image.qwenlm.ai/public_source/86c0ed85-d19e-4e1b-a8f5-72cdb594ef24/18c71744a-8a6b-4666-9933-adb749520eb0.png" alt="Student"></div>
+                                    <div><div class="chat-msg-bubble">Buenos días. Tengo una duda respecto a la gestión del tiempo y el equilibrio entre mis materias de último año y las actividades del programa de bienestar. Siento que la carga es un poco pesada este semestre.</div><div class="chat-msg-time">10:05 AM</div></div>
+                                </div>
+                                <div class="chat-msg outgoing-msg">
+                                    <div class="chat-msg-avatar bot-avatar"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="white" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+                                    <div><div class="chat-msg-bubble">Entiendo perfectamente. Es común sentir esa presión en el último año. ¿Te gustaría que revisáramos juntos tu cronograma actual o prefieres agendar una sesión personalizada de mentoría para organizar tus prioridades?</div><div class="chat-msg-time">Monitor &nbsp; 10:06 AM</div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="context-sidebar">
+                            <div class="context-sidebar-title">CONTEXTO ACADÉMICO</div>
+                            <div class="context-item"><div class="context-item-label">Estudiante</div><div class="context-item-value">Carlos M.</div></div>
+                            <div class="context-item"><div class="context-item-label">Carrera</div><div class="context-item-value">Ing. Sistemas</div></div>
+                            <div class="context-item"><div class="context-item-label">Semestre</div><div class="context-item-value">10° Semestre</div></div>
+                            <div class="context-item"><div class="context-item-label">Estado Mental</div><div class="context-item-value"><span class="mental-tag">Ansioso</span></div></div>
+                            <div class="context-section-divider"></div>
+                            <div class="context-notes-title">NOTAS DEL MONITOR</div>
+                            <div class="context-note-item">Estudiante reporta sobrecarga académica.</div>
+                            <div class="context-note-item">Requiere apoyo en gestión del tiempo.</div>
+                            <div class="context-note-item">Considerar sesión de mentoría personalizada.</div>
+                        </div>
+                    </div>
+                    <div class="file-preview-bar" id="monitorFilePreview">
+                        <div class="file-preview-icon"><svg viewBox="0 0 24 24"><path d="M14,2H6A2,2,0,0,0,4,4V20a2,2,0,0,0,2,2H18a2,2,0,0,0,2-2V8Z"/></svg></div>
+                        <div class="file-preview-info"><div class="file-name" id="monitorFileName">archivo.pdf</div><div class="file-size" id="monitorFileSize">2.4 MB</div></div>
+                        <button class="file-preview-remove" onclick="removeMonitorFile()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+                    </div>
+                    <div class="chat-input-section">
+                        <div class="chat-input-bar">
+                            <button class="file-upload-btn" id="monitorFileBtn">
+                                <svg viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                                <input type="file" id="monitorFileInput" onchange="handleMonitorFileSelect(event)">
+                            </button>
+                            <input type="text" class="msg-input" id="monitorMsgInput" placeholder="Escribe tu mensaje aquí..." onkeypress="handleMonitorKeypress(event)">
+                            <button class="emoji-button" onclick="showToast('Selector de emojis')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></button>
+                            <button class="send-button" onclick="sendMonitorMessage()">Enviar<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></button>
+                        </div>
+                    </div>
+                    <div class="chat-footer-bar">Dirección de Bienestar Universitario © 2024 • Universidad Católica Americana</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goToPage(pageId) {
+            var allPages = document.querySelectorAll('.page');
+            for (var i = 0; i < allPages.length; i++) {
+                allPages[i].classList.remove('active');
+            }
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+
+            var navItems = document.querySelectorAll('.sidebar-nav-item');
+            for (var j = 0; j < navItems.length; j++) {
+                navItems[j].classList.remove('active');
+                if (navItems[j].getAttribute('data-page') === pageId) {
+                    navItems[j].classList.add('active');
+                }
+            }
+        }
+
+        function enterAsStudent() {
+            goToPage('page-student-home');
+        }
+
+        function enterAsMonitor() {
+            goToPage('page-monitor-home');
+        }
+
+        function openStudentChat(chatName) {
+            document.getElementById('studentChatTitle').textContent = chatName;
+            goToPage('page-student-chat');
+        }
+
+        function openMonitorChat(studentName) {
+            document.getElementById('monitorChatTitle').textContent = studentName;
+            goToPage('page-monitor-chat');
+        }
+
+        /* Student Chat */
+        function sendStudentMessage() {
+            var inputEl = document.getElementById('studentMsgInput');
+            var msgText = inputEl.value.trim();
+            if (!msgText) return;
+
+            var msgsContainer = document.getElementById('studentChatMessages');
+            var nowDate = new Date();
+            var hr = nowDate.getHours();
+            var mn = nowDate.getMinutes().toString().padStart(2, '0');
+            var period = hr >= 12 ? 'PM' : 'AM';
+            var displayHr = hr % 12 || 12;
+            var timeLabel = displayHr + ':' + mn + ' ' + period;
+
+            var bubbleHtml = '<div class="chat-msg outgoing-msg">' +
+                '<div class="chat-msg-avatar user-avatar"><img src="https://image.qwenlm.ai/public_source/86c0ed85-d19e-4e1b-a8f5-72cdb594ef24/18c71744a-8a6b-4666-9933-adb749520eb0.png" alt="User"></div>' +
+                '<div><div class="chat-msg-bubble">' + escapeText(msgText) + '</div>' +
+                '<div class="chat-msg-time">' + timeLabel + '</div></div></div>';
+
+            msgsContainer.insertAdjacentHTML('beforeend', bubbleHtml);
+            inputEl.value = '';
+            msgsContainer.scrollTop = msgsContainer.scrollHeight;
+
+            var filePrevBar = document.getElementById('studentFilePreview');
+            if (filePrevBar.classList.contains('show')) {
+                removeStudentFile();
+            }
+        }
+
+        function handleStudentKeypress(evt) {
+            if (evt.key === 'Enter') {
+                sendStudentMessage();
+            }
+        }
+
+        function handleStudentFileSelect(evt) {
+            var selectedFiles = evt.target.files;
+            if (selectedFiles.length > 0) {
+                var selectedFile = selectedFiles[0];
+                var previewBar = document.getElementById('studentFilePreview');
+                document.getElementById('studentFileName').textContent = selectedFile.name;
+                var sizeMB = (selectedFile.size / (1024 * 1024)).toFixed(1);
+                document.getElementById('studentFileSize').textContent = sizeMB + ' MB';
+                previewBar.classList.add('show');
+                showToast('Archivo "' + selectedFile.name + '" adjuntado');
+            }
+            evt.target.value = '';
+        }
+
+        function removeStudentFile() {
+            var previewBar = document.getElementById('studentFilePreview');
+            previewBar.classList.remove('show');
+            document.getElementById('studentFileInput').value = '';
+        }
+
+        /* Monitor Chat */
+        function sendMonitorMessage() {
+            var inputEl = document.getElementById('monitorMsgInput');
+            var msgText = inputEl.value.trim();
+            if (!msgText) return;
+
+            var msgsContainer = document.getElementById('monitorChatMessages');
+            var nowDate = new Date();
+            var hr = nowDate.getHours();
+            var mn = nowDate.getMinutes().toString().padStart(2, '0');
+            var period = hr >= 12 ? 'PM' : 'AM';
+            var displayHr = hr % 12 || 12;
+            var timeLabel = displayHr + ':' + mn + ' ' + period;
+
+            var bubbleHtml = '<div class="chat-msg outgoing-msg">' +
+                '<div class="chat-msg-avatar bot-avatar"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="white" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>' +
+                '<div><div class="chat-msg-bubble">' + escapeText(msgText) + '</div>' +
+                '<div class="chat-msg-time">Monitor &nbsp; ' + timeLabel + '</div></div></div>';
+
+            msgsContainer.insertAdjacentHTML('beforeend', bubbleHtml);
+            inputEl.value = '';
+            msgsContainer.scrollTop = msgsContainer.scrollHeight;
+
+            var filePrevBar = document.getElementById('monitorFilePreview');
+            if (filePrevBar.classList.contains('show')) {
+                removeMonitorFile();
+            }
+        }
+
+        function handleMonitorKeypress(evt) {
+            if (evt.key === 'Enter') {
+                sendMonitorMessage();
+            }
+        }
+
+        function handleMonitorFileSelect(evt) {
+            var selectedFiles = evt.target.files;
+            if (selectedFiles.length > 0) {
+                var selectedFile = selectedFiles[0];
+                var previewBar = document.getElementById('monitorFilePreview');
+                document.getElementById('monitorFileName').textContent = selectedFile.name;
+                var sizeMB = (selectedFile.size / (1024 * 1024)).toFixed(1);
+                document.getElementById('monitorFileSize').textContent = sizeMB + ' MB';
+                previewBar.classList.add('show');
+                showToast('Archivo "' + selectedFile.name + '" adjuntado');
+            }
+            evt.target.value = '';
+        }
+
+        function removeMonitorFile() {
+            var previewBar = document.getElementById('monitorFilePreview');
+            previewBar.classList.remove('show');
+            document.getElementById('monitorFileInput').value = '';
+        }
+
+        function escapeText(text) {
+            var divEl = document.createElement('div');
+            divEl.appendChild(document.createTextNode(text));
+            return divEl.innerHTML;
+        }
+
+        function showToast(message, isSuccess) {
+            var toastEl = document.getElementById('toastNotification');
+            toastEl.textContent = message;
+            toastEl.className = 'toast-notification show';
+            if (isSuccess) {
+                toastEl.classList.add('success');
+            }
+            setTimeout(function() {
+                toastEl.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
+
