@@ -303,29 +303,51 @@ body {
 /* ===== LOGO REFINEMENT ===== */
 .sidebar-logo {
     padding: 32px 24px;
-    display: flex;
-    flex-direction: column;
 }
 
 .sidebar-logo h3 {
-    font-size: 24px !important;
-    font-weight: 900 !important;
-    color: #0a1628 !important; /* DARK BLUE */
+    font-size: 24px;
+    font-weight: 900;
+    color: #0a1628;
     letter-spacing: -0.5px;
     margin-bottom: 4px;
-    display: block !important;
-    visibility: visible !important;
 }
 
 .sidebar-logo p {
-    font-size: 11px !important;
-    font-weight: 400 !important;
-    color: #64748b !important; /* GRAY */
+    font-size: 10px;
+    font-weight: 400;
+    color: #64748b;
     letter-spacing: 3px;
     text-transform: uppercase;
-    display: block !important;
-    visibility: visible !important;
 }
+
+.login-bottom-links a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ===== LOGO REFINEMENT ===== */
+.sidebar-logo {
+    padding: 32px 24px;
+}
+
+.sidebar-logo h3 {
+    font-size: 24px;
+    font-weight: 900;
+    color: #0a1628;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+}
+
+.sidebar-logo p {
+    font-size: 12px;
+    font-weight: 400;
+    color: #64748b;
+    letter-spacing: 4px;
+    text-transform: uppercase;
 }
 
 .profile-cards {
@@ -2300,4 +2322,13 @@ body {
 .student-assignment-status.pending-status {
     background: #fef3c7;
     color: #92400e;
+}
+
+/* CRITICAL: Sidebar Logo Color Fix */
+.sidebar-logo h3 {
+    color: #0a1628 !important;
+}
+
+.sidebar-logo p {
+    color: #64748b !important;
 }
