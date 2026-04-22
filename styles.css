@@ -254,6 +254,73 @@ body {
     color: #0a1628;
 }
 
+.login-google-btn {
+    width: 100%;
+    padding: 12px;
+    background: #ffffff;
+    color: #4b5563;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: background 0.2s;
+}
+
+.login-google-btn:hover {
+    background: #f9fafb;
+}
+
+.login-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 24px;
+    color: #9ca3af;
+    font-size: 12px;
+}
+
+.login-divider::before,
+.login-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.login-divider:not(:empty)::before {
+    margin-right: .75em;
+}
+
+.login-divider:not(:empty)::after {
+    margin-left: .75em;
+}
+
+/* ===== LOGO REFINEMENT ===== */
+.sidebar-logo {
+    padding: 32px 24px;
+}
+
+.sidebar-logo h3 {
+    font-size: 24px;
+    font-weight: 900;
+    color: #0a1628;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+}
+
+.sidebar-logo p {
+    font-size: 10px;
+    font-weight: 400;
+    color: #64748b;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
 .login-bottom-links a {
     display: flex;
     align-items: center;
